@@ -1,0 +1,23 @@
+version: '3.9'
+
+services:
+
+  news-api:
+
+    build: .
+
+    container_name: news-sentiment-api
+
+    ports:
+      - "8000:8000"
+
+    volumes:
+      - .:/app
+
+    command: >
+      sh -c "
+      python train_model.py &&
+      uvicorn main:app --host 0.0.0.0 --port 8000
+      "
+
+    restart: always
