@@ -1,136 +1,106 @@
 # News Sentiment Analysis API with FastAPI & Machine Learning
 
-## Overview
-
-Project ini adalah implementasi sederhana Machine Learning menggunakan:
-
-* FastAPI
-* Scikit-learn
-* Docker
-* NLP TF-IDF
-* Logistic Regression
-
-untuk melakukan sentiment analysis pada berita saham/news Indonesia.
-
-Model dapat memprediksi sentiment:
-
-* positive
-* negative
-* neutral
-
-Dataset menggunakan:
-
-[https://www.kaggle.com/datasets/triagungj/cnbc-indonesia-stock-news-sentiment-dataset](https://www.kaggle.com/datasets/triagungj/cnbc-indonesia-stock-news-sentiment-dataset)
+A FastAPI-based Machine Learning API to classify Indonesian stock news sentiment using TF-IDF vectorization and Logistic Regression.
 
 ---
 
-# Features
-
-* FastAPI REST API
-* Machine Learning sentiment analysis
-* TF-IDF text vectorization
-* Logistic Regression classifier
-* Dockerized application
-* Automatic model training
-* Evaluation result export
-* Swagger API documentation
-* Confidence score prediction
-* Indonesian news sentiment dataset
-
----
-
-# Tech Stack
-
-* Python 3.12
-* FastAPI
-* Scikit-learn
-* Pandas
-* Docker
-* Uvicorn
-
----
-
-# Project Structure
+## Folder Structure
 
 ```text
-project/
-│
+news-sentiment-analysis/
 ├── dataset/
-│   ├── news_sentiment.csv
-│   └── evaluation_result.csv
-│
-├── docker-compose.yaml
-├── Dockerfile
-├── main.py
-├── model.pkl
+│   ├── news_sentiment.csv          # training dataset
+│   └── evaluation_result.csv       # evaluation output
+├── docker-compose.yaml             # docker service definition
+├── Dockerfile                      # container configuration
+├── main.py                         # FastAPI application
+├── model.pkl                       # trained model
 ├── README.md
 ├── requirements.txt
-├── schema.py
-└── train_model.py
+├── schema.py                       # request / response schema
+└── train_model.py                  # model training process
 ```
 
 ---
 
-# Machine Learning Workflow
+## Machine Learning Flow
 
 ```text
-Dataset
-   ↓
-Split Train/Test
-   ↓
-TF-IDF Vectorization
-   ↓
-Logistic Regression
-   ↓
-Evaluation
-   ↓
-Save Model
-   ↓
-FastAPI Prediction API
+load_dataset → split_train_test → tfidf_vectorization → train_model → evaluation → save_model → prediction_api
 ```
+
+| Step                  | Description                            |
+| --------------------- | -------------------------------------- |
+| `load_dataset`        | Load sentiment dataset from CSV        |
+| `split_train_test`    | Split dataset into train and test data |
+| `tfidf_vectorization` | Convert text into TF-IDF features      |
+| `train_model`         | Train Logistic Regression model        |
+| `evaluation`          | Evaluate prediction performance        |
+| `save_model`          | Store trained model as `model.pkl`     |
+| `prediction_api`      | Serve predictions using FastAPI        |
 
 ---
 
-# Installation
+## Supported Sentiment Labels
 
-## 1. Clone Repository
+| Label      | Description        |
+| ---------- | ------------------ |
+| `positive` | Positive sentiment |
+| `negative` | Negative sentiment |
+| `neutral`  | Neutral sentiment  |
+
+---
+
+## Tech Stack
+
+| Component        | Technology   |
+| ---------------- | ------------ |
+| Language         | Python 3.12  |
+| API Framework    | FastAPI      |
+| ML Library       | Scikit-learn |
+| Data Processing  | Pandas       |
+| Containerization | Docker       |
+| API Server       | Uvicorn      |
+
+---
+
+## Setup & Running
+
+### 1. Clone Repository
 
 ```bash
-git clone
-cd project
+git clone https://github.com/gitaferdina/news-sentiment-analysis.git
+
+cd news-sentiment-analysis
 ```
 
----
+### 2. Download Dataset
 
-# 2. Download Dataset
+Download dataset:
 
-Download dataset dari Kaggle:
+```text
+https://www.kaggle.com/datasets/triagungj/cnbc-indonesia-stock-news-sentiment-dataset
+```
 
-[https://www.kaggle.com/datasets/triagungj/cnbc-indonesia-stock-news-sentiment-dataset](https://www.kaggle.com/datasets/triagungj/cnbc-indonesia-stock-news-sentiment-dataset)
-
-Rename file menjadi:
+Rename file:
 
 ```text
 news_sentiment.csv
 ```
 
-Simpan file CSV ke:
+Move file into:
 
 ```text
 dataset/
 ```
 
----
-
-# 3. Build Docker Container
+### 3. Build Container
 
 ```bash
 docker compose up --build
 ```
 
----
-
-# 4. Open Swagger Documentation
+### 4. Open API Documentation
 
 ```text
 http://localhost:8000/docs
@@ -138,15 +108,13 @@ http://localhost:8000/docs
 
 ---
 
-# API Endpoint
+## API Endpoint
 
-## POST `/predict`
+### POST `/predict`
 
-Predict sentiment dari news text.
+Predict sentiment from Indonesian stock news.
 
----
-
-# Request
+### Request
 
 ```json
 {
@@ -154,14 +122,12 @@ Predict sentiment dari news text.
 }
 ```
 
----
-
-# Response
+### Response
 
 ```json
 {
   "text": "Hancur Lebur! Harga Emas Dibanting: Ambruk 9%, Rekor Terburuk 43 Tahun",
-  "prediction": "negatif",
+  "prediction": "negative",
   "confidence": {
     "negative": 0.5902102555279929,
     "neutral": 0.13384365697048053,
@@ -172,48 +138,39 @@ Predict sentiment dari news text.
 
 ---
 
-# Model Training
+## Training Process
 
-Training model dilakukan otomatis saat container startup.
+Training berjalan otomatis ketika container startup.
 
-Workflow:
-
-* load dataset
-* split train/test
-* train model
-* evaluate model
-* save model.pkl
-
----
-
-# Evaluation Result
-
-## evaluation_result.csv
-
-Berisi detail prediction:
-
-| news | actual_sentiment | predicted_sentiment | is_correct |
-| ---- | ---------------- | ------------------- | ---------- |
+| Step | Process                      |
+| ---- | ---------------------------- |
+| 1    | Load dataset                 |
+| 2    | Train / test split           |
+| 3    | TF-IDF transformation        |
+| 4    | Logistic Regression training |
+| 5    | Model evaluation             |
+| 6    | Save model                   |
 
 ---
 
-# Machine Learning Model
+## Evaluation Result
 
-## TF-IDF Vectorizer
+### evaluation_result.csv
 
-Digunakan untuk mengubah text menjadi numeric vector.
+Berisi detail hasil prediksi model.
+
+| Column                | Description            |
+| --------------------- | ---------------------- |
+| `news`                | News text              |
+| `actual_sentiment`    | Actual sentiment       |
+| `predicted_sentiment` | Model prediction       |
+| `is_correct`          | Prediction correctness |
 
 ---
 
-# Logistic Regression
+## Docker Configuration
 
-Digunakan sebagai classification algorithm untuk sentiment prediction.
-
----
-
-# Docker Configuration
-
-## docker-compose.yaml
+### docker-compose.yaml
 
 ```yaml
 version: '3.9'
@@ -243,36 +200,36 @@ services:
 
 ---
 
-# FastAPI Swagger
+## Run Without Docker
 
-FastAPI otomatis menyediakan API documentation:
-
-```text
-http://localhost:8000/docs
-```
-
----
-
-# Run Without Docker
-
-## Install Dependency
+### Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
----
-
-# Train Model
+### Train Model
 
 ```bash
 python train_model.py
 ```
 
----
-
-# Run FastAPI
+### Run API
 
 ```bash
 uvicorn main:app --reload
+```
+
+---
+
+## Requirements
+
+```text
+fastapi
+scikit-learn
+pandas
+numpy
+uvicorn
+joblib
+docker
 ```
