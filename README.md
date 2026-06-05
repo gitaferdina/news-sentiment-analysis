@@ -108,36 +108,6 @@ http://localhost:8000/docs
 
 ---
 
-## API Endpoint
-
-### POST `/predict`
-
-Predict sentiment from Indonesian stock news.
-
-### Request
-
-```json
-{
-  "text": "IHSG mengalami kenaikan tajam hari ini"
-}
-```
-
-### Response
-
-```json
-{
-  "text": "Hancur Lebur! Harga Emas Dibanting: Ambruk 9%, Rekor Terburuk 43 Tahun",
-  "prediction": "negative",
-  "confidence": {
-    "negative": 0.5902102555279929,
-    "neutral": 0.13384365697048053,
-    "positive": 0.27594608750152655
-  }
-}
-```
-
----
-
 ## Training Process
 
 Training berjalan otomatis ketika container startup.
